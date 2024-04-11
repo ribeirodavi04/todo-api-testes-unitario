@@ -6,7 +6,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Todo.Domain.Interfaces;
 using Todo.Infra.Data.Context;
+using Todo.Infra.Data.Repositories;
 
 namespace Todo.Infra.IoC
 {
@@ -15,6 +17,9 @@ namespace Todo.Infra.IoC
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration) 
         {
             services.AddDbContext<ToDoDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+
+            //repositories
+            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
             return services;
         }
